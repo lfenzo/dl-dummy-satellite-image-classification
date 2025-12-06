@@ -1,7 +1,5 @@
 import torch.nn as nn
 
-from src.modelling.base_model import BaseImageClassifier
-
 
 def conv_block(in_channels: int, out_channels: int, pool: bool = False):
     block_layers = [
@@ -14,10 +12,10 @@ def conv_block(in_channels: int, out_channels: int, pool: bool = False):
     return nn.Sequential(*block_layers)
 
 
-class ResNet(BaseImageClassifier):
+class ResNet(nn.Module):
 
-    def __init__(self, in_channels, n_classes):
-        super().__init__()
+    def __init__(self, in_channels: int, n_classes: int) -> None:
+        super().__init__()  # mandatory
         self.conv1 = conv_block(in_channels, 64)
         self.conv2 = conv_block(64, 128, pool=True)
         self.res1 = nn.Sequential(conv_block(128, 128), conv_block(128, 128))

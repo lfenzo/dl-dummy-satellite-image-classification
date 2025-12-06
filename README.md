@@ -1,36 +1,49 @@
 # Dummy Satellite Image Classification
 
-The objective of this project was to compare the difference between the `Adam`, `SGD` and
-`RMSprop` optimizers in a task of image classification with neural networks trained using PyTorch.
+![](./images/training_samples.png)
 
-- **Problem domain(s):** multi-class image classification.
-- **Model architecture(s)**: Resnet (defined and trained from scratch).
-- **Optimizer(s)**: Adam, Stochastic Gradient Descent and RMSProp.
+This project serves as a “hello world” example in computer vision, focusing on a simple image
+classification task using a custom ResNet architecture to classify satellite images.
+
+- **Problem domain:** Multi-class image classification
+- **Data type:** Remote sensing satellite images
 
 ## Dataset
 
-Data used in this project corresponds to Remote Sensing (RS) images stored as `.jpg` files with relatively
-low resolution. Each of the images is associated to exactly one of the following 4 classes:
+The data used in this project consist of low-resolution Remote Sensing (RS) images stored as `.jpg`
+files. Each image is associated with exactly one of the following four classes:
 - green area
 - cloudy
 - desert
 - water
 
-The figure below depicts examples for these images as well as their respective classes:
-
-![](./images/training_samples.png)
-
-The data can be freely downloaded in the following [Kaggle dataset link](https://www.kaggle.com/datasets/mahmoudreda55/satellite-image-classification?resource=download).
+The data can be freely downloaded from the original [Kaggle Dataset](https://www.kaggle.com/datasets/mahmoudreda55/satellite-image-classification?resource=download).
 
 ## Performance
 
-<table>
-    <tr>
-        <td><img src = "./images/learning_curves.png"></td>
-        <td><img src = "./images/confusion_matrix.png"></td>
-    </tr>
-</table>
+```
+              precision    recall  f1-score   support
 
------------------
+           0     1.0000    0.9942    0.9971       172
+           1     0.9909    1.0000    0.9954       109
+           2     0.9930    0.9930    0.9930       143
+           3     0.9929    0.9929    0.9929       140
 
-![](./images/missclassifications_per_class.png)
+    accuracy                         0.9947       564
+   macro avg     0.9942    0.9950    0.9946       564
+weighted avg     0.9947    0.9947    0.9947       564
+```
+
+## Training Setup
+
+| Training aspect       | Details                                         |
+|------------------------|--------------------------------------------------|
+| Model architecture     | Custom ResNet (trained from scratch, no transfer learning) |
+| Splits                 | Stratified Holdout (80%, 10%, 10%)              |
+| Epochs                 | 40                                              |
+| Batch size             | 16                                              |
+| Optimizer              | Adam                                            |
+| LR scheduler           | OneCycleLR (max_lr = 0.1)                       |
+| Gradient clipping      | max_norm = 0.1                                  |
+| Loss function          | CrossEntropyLoss                                |
+| Data augmentation      | Random Horizontal Flip                          |
